@@ -56,24 +56,19 @@ func (s *UserService) Register(ctx context.Context, userReq entity.User) error {
 }
 
 func (s *UserService) LoginUser(ctx context.Context, userReq entity.User) (user entity.User, err error) {
-	existingUser, err := s.userRepository.GetUserByUsername(ctx, userReq.Username)
-	if err != nil {
-		existingUserx, err := s.userRepository.GetUserByEmail(ctx, userReq.Email)
-
-		if utils.CheckPassword(userReq.Password, existingUser.Password) != nil {
-			return entity.User{}, ErrUserPasswordDontMatch
-		}
-
-		if err != nil {
-			return entity.User{}, ErrUserNotFound
-		}
-
-		return existingUserx, nil
+	if userReq.Username != "" {
+		user, err = s.userRepository.GetUserByUsername(ctx, userReq.Username)
+	} else {
+		user, err = s.userRepository.GetUserByEmail(ctx, userReq.Email)
 	}
 
-	if utils.CheckPassword(userReq.Password, existingUser.Password) != nil {
+	if err != nil {
+		return entity.User{}, ErrUserNotFound
+	}
+
+	if utils.CheckPassword(userReq.Password, user.Password) != nil {
 		return entity.User{}, ErrUserPasswordDontMatch
 	}
 
-	return existingUser, nil
+	return user, nil
 }

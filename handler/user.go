@@ -151,8 +151,8 @@ func (u *UserHandler) Login(c echo.Context) error {
 		})
 	}
 	User := entity.User{
-		Username: userReq.Chars,
-		Email:    userReq.Chars,
+		Username: userReq.Username,
+		Email:    userReq.Email,
 		Password: userReq.Password,
 	}
 	res, err := u.userService.LoginUser(c.Request().Context(), User)

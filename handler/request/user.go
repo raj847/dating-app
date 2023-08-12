@@ -1,20 +1,21 @@
 package request
 
 type User struct {
-	Username string `form:"username" validate:"required,min=3,max=11,lowercase"`
-	Email    string `form:"email" validate:"required,email"`
-	Password string `form:"password" validate:"required,min=8,passwd"`
-	Name     string `form:"name" validate:"required"`
-	Gender   string `form:"gender" validate:"required,gendr"`
-	DOB      string `form:"date_of_birth" validate:"required"`
-	Nickname string `form:"nickname"`
-	Domicile string `form:"domicile"`
-	Photo    string `form:"photo"`
-	Job      string `form:"job"`
-	Interest string `form:"interest"`
+	Username string `json:"username" validate:"required,min=3,max=11,lowercase"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=8,passwd"`
+	Name     string `json:"name" validate:"required"`
+	Gender   string `json:"gender" validate:"required,gendr"`
+	DOB      string `json:"date_of_birth" validate:"required"`
+	Nickname string `json:"nickname"`
+	Domicile string `json:"domicile"`
+	Photo    string `json:"photo"`
+	Job      string `json:"job"`
+	Interest string `json:"interest"`
 }
 
 type Login struct {
-	Chars    string `json:"username/email"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
