@@ -113,3 +113,46 @@ func TestUserRepository_GetUserByUsername_NotFound(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.True(t, errors.Is(err, gorm.ErrRecordNotFound))
 }
+
+func TestUserRepository_GetUserByEmail_Success(t *testing.T) {
+	userRepo, mock := SetupUserRepositoryTest()
+
+	expectedEmail := "aryadevara@gmail.com"
+	expectedQuery := `SELECT * FROM "users" WHERE email = $1`
+
+	expectedUser := entity.User{
+		Username: "admin",
+		Email:    "aryadevara@gmail.com",
+		Password: "Ary4123#",
+		Name:     "Arya",
+		Gender:   "L",
+		DOB:      time.Now(),
+		Nickname: "raj",
+		Domicile: "Semarang",
+		Photo:    "xxxx",
+		Job:      "Student",
+		Interest: "martial arts",
+	}
+
+	rows := sqlmock.NewRows([]string{"id", "username", "email", "password", "name", "gender", "dob", "nickname", "domicile", "photo", "job", "interest"}).
+		AddRow(expectedUser.ID, expectedUser.Username, expectedUser.Email, expectedUser.Password, expectedUser.Name, expectedUser.Gender, expectedUser.DOB, expectedUser.Nickname, expectedUser.Domicile, expectedUser.Photo, expectedUser.Job, expectedUser.Interest)
+
+	mock.ExpectQuery(regexp.QuoteMeta(expectedQuery)).WithArgs(expectedEmail).WillReturnRows(rows)
+
+	user, err := userRepo.GetUserByEmail(context.Background(), expectedEmail)
+	assert.Nil(t, err)
+	assert.Equal(t, expectedUser, user)
+}
+
+func TestUserRepository_GetUserByEmail_NotFound(t *testing.T) {
+	userRepo, mock := SetupUserRepositoryTest()
+
+	expectedEmail := "aryadevara@gmail.com"
+	expectedQuery := `SELECT * FROM "users" WHERE email = $1`
+
+	mock.ExpectQuery(regexp.QuoteMeta(expectedQuery)).WithArgs(expectedEmail).WillReturnError(gorm.ErrRecordNotFound)
+
+	_, err := userRepo.GetUserByEmail(context.Background(), expectedEmail)
+	assert.NotNil(t, err)
+	assert.True(t, errors.Is(err, gorm.ErrRecordNotFound))
+}
