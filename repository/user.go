@@ -15,8 +15,8 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db}
 }
 
-func (u *UserRepository) Register(ctx context.Context, user entity.User) error {
-	err := u.db.WithContext(ctx).Create(&user).Error
+func (u *UserRepository) Register(ctx context.Context, user *entity.User) error {
+	err := u.db.WithContext(ctx).Create(user).Error
 	if err != nil {
 		return err
 	}

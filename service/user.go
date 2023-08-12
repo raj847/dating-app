@@ -48,7 +48,7 @@ func (s *UserService) Register(ctx context.Context, userReq entity.User) error {
 		return err
 	}
 
-	err = s.userRepository.Register(ctx, userReq)
+	err = s.userRepository.Register(ctx, &userReq)
 	if err != nil {
 		return err
 	}

@@ -7,28 +7,23 @@ import (
 	"dating-app/service"
 	"dating-app/validate"
 	"errors"
-	"fmt"
-	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
-	"github.com/minio/minio-go/v7"
 )
 
 type UserHandler struct {
 	userService *service.UserService
-	minioClient *minio.Client
 }
 
 func NewUserHandler(
 	userService *service.UserService,
-	minioClient *minio.Client,
 ) *UserHandler {
 	return &UserHandler{
 		userService: userService,
-		minioClient: minioClient,
 	}
 }
 
@@ -40,7 +35,7 @@ func (u *UserHandler) Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Errors: []response.ErrorDetail{
 				{
-					Message: "failed to read form request",
+					Message: "failed to read json request",
 					Code:    "BAD_REQUEST",
 				},
 			},
@@ -57,36 +52,6 @@ func (u *UserHandler) Create(c echo.Context) error {
 			},
 		})
 	}
-	fileHeader, err := c.FormFile("photo")
-	if err != nil {
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, response.ErrorResponse{
-				Errors: []response.ErrorDetail{
-					{
-						Message: err.Error(),
-						Code:    "FILE_INVALID",
-					},
-				},
-			})
-		}
-	}
-	file, err := fileHeader.Open()
-	if err != nil {
-		return c.String(http.StatusInternalServerError, "Failed to open the file.")
-	}
-	defer file.Close()
-
-	_, err = u.minioClient.PutObject(c.Request().Context(), "rajendra", fileHeader.Filename, file, fileHeader.Size, minio.PutObjectOptions{
-		UserMetadata: map[string]string{
-			"x-amz-acl": "public-read",
-		},
-		ContentType: "image/jpeg",
-	})
-	if err != nil {
-		log.Println(err)
-		return c.String(http.StatusInternalServerError, "Failed to upload to storage.")
-	}
-	fileName := fmt.Sprintf("https://is3.cloudhost.id/rajendra/%s", fileHeader.Filename)
 	t, _ := time.Parse("2006-01-02", userReq.DOB)
 	user := entity.User{
 		Username: userReq.Username,
@@ -97,7 +62,7 @@ func (u *UserHandler) Create(c echo.Context) error {
 		DOB:      t,
 		Nickname: userReq.Nickname,
 		Domicile: userReq.Domicile,
-		Photo:    fileName,
+		Photo:    userReq.Photo,
 		Job:      userReq.Job,
 		Interest: userReq.Interest,
 	}
@@ -196,7 +161,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claims)
-	tokenString, _ := token.SignedString([]byte("rahasia-perusahaan"))
+	tokenString, _ := token.SignedString([]byte(os.Getenv("SIGNED_TOKEN")))
 
 	resp := map[string]any{
 		"data":  res,

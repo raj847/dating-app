@@ -5,8 +5,6 @@ import (
 	"dating-app/repository"
 	"dating-app/service"
 	"dating-app/utils"
-	"log"
-	"os"
 
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/labstack/echo/v4"
@@ -14,15 +12,10 @@ import (
 )
 
 func main() {
-	err := os.Setenv("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/user")
-	if err != nil {
-		log.Fatalf("cannot set env: %v", err)
-	}
-
-	minioClientConn, err := service.NewMinioClient()
-	if err != nil {
-		log.Fatalf("cannot connect to minio: %v", err)
-	}
+	// err := os.Setenv("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/user")
+	// if err != nil {
+	// 	log.Fatalf("cannot set env: %v", err)
+	// }
 
 	// Echo instance
 	e := echo.New()
@@ -38,7 +31,7 @@ func main() {
 
 	userRepo := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepo)
-	userHandler := handler.NewUserHandler(userService, minioClientConn)
+	userHandler := handler.NewUserHandler(userService)
 
 	// Routes
 	e.POST("/v1/signup", userHandler.Create)
