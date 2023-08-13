@@ -14,8 +14,10 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	validate.RegisterValidation("gendr", ValidateGender)
-
+	err = validate.RegisterValidation("gendr", ValidateGender)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func Validate(v interface{}) error {
