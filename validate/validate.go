@@ -10,8 +10,14 @@ var validate *validator.Validate
 
 func init() {
 	validate = validator.New()
-	validate.RegisterValidation("passwd", IsPasswordValid)
-	validate.RegisterValidation("gendr", ValidateGender)
+	err := validate.RegisterValidation("passwd", IsPasswordValid)
+	if err != nil {
+		panic(err)
+	}
+	err = validate.RegisterValidation("gendr", ValidateGender)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func Validate(v interface{}) error {

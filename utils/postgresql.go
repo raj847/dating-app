@@ -21,7 +21,7 @@ func ConnectDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	conn.AutoMigrate(
+	_ = conn.AutoMigrate(
 		entity.User{},
 	)
 
