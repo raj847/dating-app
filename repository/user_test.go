@@ -15,7 +15,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SetupUserRepositoryTest() (*repository.UserRepository, sqlmock.Sqlmock) {
+func SetupUserRepositoryTest() (repository.UserRepository, sqlmock.Sqlmock) {
 	mockDB, mock, err := sqlmock.New()
 	if err != nil {
 		panic(err)
