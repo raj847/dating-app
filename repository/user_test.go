@@ -78,6 +78,9 @@ func TestUserRepository_GetUserByUsername_Success(t *testing.T) {
 	expectedQuery := `SELECT * FROM "users" WHERE username = $1`
 
 	expectedUser := entity.User{
+		Model: gorm.Model{
+			ID: 101,
+		},
 		Username: "admin",
 		Email:    "aryadevara@gmail.com",
 		Password: "Ary4123#",
@@ -121,6 +124,9 @@ func TestUserRepository_GetUserByEmail_Success(t *testing.T) {
 	expectedQuery := `SELECT * FROM "users" WHERE email = $1`
 
 	expectedUser := entity.User{
+		Model: gorm.Model{
+			ID: 101,
+		},
 		Username: "admin",
 		Email:    "aryadevara@gmail.com",
 		Password: "Ary4123#",
