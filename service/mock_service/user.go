@@ -36,7 +36,7 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // LoginUser mocks base method.
-func (m *MockUserService) LoginUser(ctx context.Context, userReq entity.User) (entity.User, error) {
+func (m *MockUserService) LoginUser(ctx context.Context, userReq *entity.User) (entity.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LoginUser", ctx, userReq)
 	ret0, _ := ret[0].(entity.User)
@@ -51,7 +51,7 @@ func (mr *MockUserServiceMockRecorder) LoginUser(ctx, userReq interface{}) *gomo
 }
 
 // Register mocks base method.
-func (m *MockUserService) Register(ctx context.Context, userReq entity.User) error {
+func (m *MockUserService) Register(ctx context.Context, userReq *entity.User) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Register", ctx, userReq)
 	ret0, _ := ret[0].(error)

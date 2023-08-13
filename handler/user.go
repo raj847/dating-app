@@ -66,7 +66,7 @@ func (u *UserHandler) Create(c echo.Context) error {
 		Job:      userReq.Job,
 		Interest: userReq.Interest,
 	}
-	err = u.userService.Register(c.Request().Context(), user)
+	err = u.userService.Register(c.Request().Context(), &user)
 	if err != nil {
 		if errors.Is(err, service.ErrEmailInvalid) {
 			return c.JSON(http.StatusBadRequest, response.ErrorResponse{
@@ -120,7 +120,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 		Email:    userReq.Email,
 		Password: userReq.Password,
 	}
-	res, err := u.userService.LoginUser(c.Request().Context(), User)
+	res, err := u.userService.LoginUser(c.Request().Context(), &User)
 	if err != nil {
 		if errors.Is(err, service.ErrUserNotFound) {
 			return c.JSON(http.StatusBadRequest, response.ErrorResponse{

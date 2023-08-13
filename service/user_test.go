@@ -37,7 +37,7 @@ func TestUserServiceRegister_Success(t *testing.T) {
 		Password: "Ary4123#",
 	}
 
-	err := userService.Register(context.Background(), user)
+	err := userService.Register(context.Background(), &user)
 	assert.Nil(t, err)
 }
 
@@ -62,7 +62,7 @@ func TestUserServiceRegister_ErrAlreadyExist(t *testing.T) {
 		Password: "Ary4123#",
 	}
 
-	err := userService.Register(context.Background(), user)
+	err := userService.Register(context.Background(), &user)
 	assert.Equal(t, service.ErrUserAlreadyExists, err)
 }
 
@@ -87,7 +87,7 @@ func TestUserServiceRegister_ErrDomainNotValid(t *testing.T) {
 		Password: "Ary4123#",
 	}
 
-	err := userService.Register(context.Background(), user)
+	err := userService.Register(context.Background(), &user)
 	assert.Equal(t, service.ErrEmailInvalid, err)
 }
 
@@ -114,7 +114,7 @@ func TestUserServiceLogin_UsernameSuccess(t *testing.T) {
 		Password: "Ary4123#",
 	}
 
-	user, err := userService.LoginUser(context.Background(), userLogin)
+	user, err := userService.LoginUser(context.Background(), &userLogin)
 	assert.Nil(t, err)
 	assert.Equal(t, existingUser, user)
 }
@@ -142,7 +142,7 @@ func TestUserServiceLogin_EmailSuccess(t *testing.T) {
 		Password: "Ary4123#",
 	}
 
-	user, err := userService.LoginUser(context.Background(), userLogin)
+	user, err := userService.LoginUser(context.Background(), &userLogin)
 	assert.Nil(t, err)
 	assert.Equal(t, existingUser, user)
 }
@@ -170,7 +170,7 @@ func TestUserServiceLogin_PasswordNotMatchErr(t *testing.T) {
 		Password: "Ary4123!",
 	}
 
-	_, err := userService.LoginUser(context.Background(), userLogin)
+	_, err := userService.LoginUser(context.Background(), &userLogin)
 	assert.Equal(t, service.ErrUserPasswordDontMatch, err)
 
 }
@@ -191,6 +191,6 @@ func TestUserServiceLogin_UserNotFoundErr(t *testing.T) {
 		Password: "Ary4123#",
 	}
 
-	_, err := userService.LoginUser(context.Background(), userLogin)
+	_, err := userService.LoginUser(context.Background(), &userLogin)
 	assert.Equal(t, service.ErrUserNotFound, err)
 }

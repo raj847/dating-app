@@ -58,7 +58,7 @@ func TestUserHandlerRegister_Success(t *testing.T) {
 		Interest: "martial arts",
 	}
 
-	userService.EXPECT().Register(context.Background(), userReq).Return(nil)
+	userService.EXPECT().Register(context.Background(), &userReq).Return(nil)
 
 	err := handler.Create(c)
 	assert.Nil(t, err)
