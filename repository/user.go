@@ -7,15 +7,21 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserRepository struct {
+type userRepository struct {
 	db *gorm.DB
 }
 
-func NewUserRepository(db *gorm.DB) *UserRepository {
-	return &UserRepository{db}
+type UserRepository interface {
+	Register(ctx context.Context, user *entity.User) error
+	GetUserByUsername(ctx context.Context, username string) (entity.User, error)
+	GetUserByEmail(ctx context.Context, email string) (entity.User, error)
 }
 
-func (u *UserRepository) Register(ctx context.Context, user *entity.User) error {
+func NewUserRepository(db *gorm.DB) *userRepository {
+	return &userRepository{db}
+}
+
+func (u *userRepository) Register(ctx context.Context, user *entity.User) error {
 	err := u.db.WithContext(ctx).Create(user).Error
 	if err != nil {
 		return err
@@ -23,7 +29,7 @@ func (u *UserRepository) Register(ctx context.Context, user *entity.User) error 
 	return nil
 }
 
-func (u *UserRepository) GetUserByUsername(ctx context.Context, username string) (entity.User, error) {
+func (u *userRepository) GetUserByUsername(ctx context.Context, username string) (entity.User, error) {
 	var res entity.User
 	err := u.db.WithContext(ctx).Table("users").Where("username = ?", username).Find(&res).Error
 	if err != nil {
@@ -33,7 +39,7 @@ func (u *UserRepository) GetUserByUsername(ctx context.Context, username string)
 	return res, nil
 }
 
-func (u *UserRepository) GetUserByEmail(ctx context.Context, email string) (entity.User, error) {
+func (u *userRepository) GetUserByEmail(ctx context.Context, email string) (entity.User, error) {
 	var res entity.User
 	err := u.db.WithContext(ctx).Table("users").Where("email = ?", email).Find(&res).Error
 	if err != nil {
