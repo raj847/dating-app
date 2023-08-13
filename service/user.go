@@ -10,12 +10,17 @@ import (
 	"strings"
 )
 
-type UserService struct {
+type userService struct {
 	userRepository repository.UserRepository
 }
 
-func NewUserService(userRepository repository.UserRepository) *UserService {
-	return &UserService{
+type UserService interface {
+	Register(ctx context.Context, userReq entity.User) error
+	LoginUser(ctx context.Context, userReq entity.User) (user entity.User, err error)
+}
+
+func NewUserService(userRepository repository.UserRepository) *userService {
+	return &userService{
 		userRepository: userRepository,
 	}
 }
@@ -27,7 +32,7 @@ var (
 	ErrEmailInvalid          = errors.New("domain of email invalid")
 )
 
-func (s *UserService) Register(ctx context.Context, userReq entity.User) error {
+func (s *userService) Register(ctx context.Context, userReq entity.User) error {
 	existingUser, err := s.userRepository.GetUserByUsername(ctx, userReq.Username)
 	if err != nil {
 		return err
@@ -55,7 +60,7 @@ func (s *UserService) Register(ctx context.Context, userReq entity.User) error {
 	return nil
 }
 
-func (s *UserService) LoginUser(ctx context.Context, userReq entity.User) (user entity.User, err error) {
+func (s *userService) LoginUser(ctx context.Context, userReq entity.User) (user entity.User, err error) {
 	if userReq.Username != "" {
 		user, err = s.userRepository.GetUserByUsername(ctx, userReq.Username)
 	} else {

@@ -35,7 +35,7 @@ func TestBuildUser(t *testing.T) {
 		Password:  "Ary4123#",
 		Name:      "Arya",
 		Gender:    "L",
-		DOB:       time.Now(),
+		DOB:       user.DOB,
 		Nickname:  "raj",
 		Domicile:  "Semarang",
 		Photo:     "xxxx",
