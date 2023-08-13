@@ -37,3 +37,54 @@ Lastly, the main package serves as the execution point for the entire codebase. 
 ---
 
 Thank you for exploring our service structure! Should you have any questions or suggestions, please feel free to raise an issue or submit a pull request.
+
+# Instructions on How to Run the Service
+
+Follow these steps to set up and run the service on your local environment:
+
+## Table of Contents
+- [Download or Clone Repository](#download-or-clone-repository)
+- [Install Dependencies](#install-dependencies)
+- [Database Setup](#database-setup)
+- [Environment Variables Configuration](#environment-variables-configuration)
+- [Running the Service](#running-the-service)
+- [Additional Resources](#additional-resources)
+
+## Download or Clone Repository
+Begin by downloading or cloning the repository to your local machine.
+
+```bash
+git clone https://github.com/raj847/dating-app.git
+```
+
+## Install Dependencies
+Once you have the repository on your machine, navigate to the root directory and install all the necessary packages using:
+
+```bash
+go mod tidy
+```
+
+## Database Setup
+Ensure that PostgreSQL is running on your machine. If it's not installed yet, you'll need to set it up before proceeding.
+
+## Environment Variables Configuration
+To configure your environment variables, refer to the `env.sample` file provided in the repository. Set up the values according to your local setup to ensure the service connects correctly to its dependencies.
+
+## Running the Service
+With everything set up, you can now run the service with the following command:
+
+```bash
+go run main.go
+```
+
+## Additional Resources
+
+- For **Linting Jobs**: Visit [this link](https://github.com/raj847/dating-app/actions/runs/5848212167/job/15855261943).
+  
+- For **Automatic Testing/Unit Tests**: Access [this link](https://github.com/raj847/dating-app/actions/runs/5848212167/job/15855261943).
+
+- **Postman Test Collection**: You can view and import the Postman test collection from [here](https://documenter.getpostman.com/view/16407134/2s9Xy5LqMr).
+
+---
+
+We hope this guide helps you get started with the service. If you encounter any issues or have suggestions, please raise an issue or contribute by submitting a pull request.
