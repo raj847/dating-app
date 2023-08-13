@@ -39,6 +39,7 @@ func TestUserServiceRegister_Success(t *testing.T) {
 
 	err := userService.Register(context.Background(), user)
 	assert.Nil(t, err)
+	assert.Equal(t, 1, user.ID)
 }
 
 func TestUserServiceRegister_ErrAlreadyExist(t *testing.T) {
