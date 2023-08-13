@@ -3,3 +3,63 @@
 
 // Package mock_service is a generated GoMock package.
 package mock_service
+
+import (
+	context "context"
+	entity "dating-app/entity"
+	reflect "reflect"
+
+	gomock "go.uber.org/mock/gomock"
+)
+
+// MockUserService is a mock of UserService interface.
+type MockUserService struct {
+	ctrl     *gomock.Controller
+	recorder *MockUserServiceMockRecorder
+}
+
+// MockUserServiceMockRecorder is the mock recorder for MockUserService.
+type MockUserServiceMockRecorder struct {
+	mock *MockUserService
+}
+
+// NewMockUserService creates a new mock instance.
+func NewMockUserService(ctrl *gomock.Controller) *MockUserService {
+	mock := &MockUserService{ctrl: ctrl}
+	mock.recorder = &MockUserServiceMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
+	return m.recorder
+}
+
+// LoginUser mocks base method.
+func (m *MockUserService) LoginUser(ctx context.Context, userReq entity.User) (entity.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "LoginUser", ctx, userReq)
+	ret0, _ := ret[0].(entity.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// LoginUser indicates an expected call of LoginUser.
+func (mr *MockUserServiceMockRecorder) LoginUser(ctx, userReq interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LoginUser", reflect.TypeOf((*MockUserService)(nil).LoginUser), ctx, userReq)
+}
+
+// Register mocks base method.
+func (m *MockUserService) Register(ctx context.Context, userReq entity.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Register", ctx, userReq)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Register indicates an expected call of Register.
+func (mr *MockUserServiceMockRecorder) Register(ctx, userReq interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Register", reflect.TypeOf((*MockUserService)(nil).Register), ctx, userReq)
+}
