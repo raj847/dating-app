@@ -9,7 +9,6 @@ type User struct {
 	UserID    uint      `json:"user_id"`
 	Username  string    `json:"username"`
 	Email     string    `json:"email"`
-	Password  string    `json:"password"`
 	Name      string    `json:"name"`
 	Gender    string    `json:"gender"`
 	DOB       time.Time `json:"date_of_birth"`

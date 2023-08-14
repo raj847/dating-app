@@ -160,11 +160,13 @@ func (u *UserHandler) Login(c echo.Context) error {
 		},
 	}
 
+	ress := response.BuildUser(res)
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claims)
 	tokenString, _ := token.SignedString([]byte(os.Getenv("SIGNED_TOKEN")))
 
 	resp := map[string]any{
-		"data":  res,
+		"data":  ress,
 		"token": tokenString,
 	}
 	return c.JSON(http.StatusCreated, resp)
