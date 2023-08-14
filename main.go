@@ -5,6 +5,7 @@ import (
 	"dating-app/repository"
 	"dating-app/service"
 	"dating-app/utils"
+	"os"
 
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/labstack/echo/v4"
@@ -12,11 +13,6 @@ import (
 )
 
 func main() {
-	// err := os.Setenv("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/user")
-	// if err != nil {
-	// 	log.Fatalf("cannot set env: %v", err)
-	// }
-
 	// Echo instance
 	e := echo.New()
 
@@ -38,5 +34,5 @@ func main() {
 	e.POST("/v1/login", userHandler.Login)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(os.Getenv("PORT")))
 }

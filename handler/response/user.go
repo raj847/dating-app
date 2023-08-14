@@ -28,7 +28,6 @@ func BuildUser(member entity.User) User {
 		UserID:    member.ID,
 		Username:  member.Username,
 		Email:     member.Email,
-		Password:  member.Password,
 		Name:      member.Name,
 		Gender:    member.Gender,
 		DOB:       member.DOB,

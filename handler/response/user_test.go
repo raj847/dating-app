@@ -32,7 +32,6 @@ func TestBuildUser(t *testing.T) {
 		UserID:    1,
 		Username:  "admin",
 		Email:     "aryadevara@gmail.com",
-		Password:  "Ary4123#",
 		Name:      "Arya",
 		Gender:    "L",
 		DOB:       user.DOB,

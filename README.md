@@ -61,14 +61,72 @@ git clone https://github.com/raj847/dating-app.git
 Once you have the repository on your machine, navigate to the root directory and install all the necessary packages using:
 
 ```bash
-go mod tidy
+go mod download
 ```
 
 ## Database Setup
 Ensure that PostgreSQL is running on your machine. If it's not installed yet, you'll need to set it up before proceeding.
 
 ## Environment Variables Configuration
-To configure your environment variables, refer to the `env.sample` file provided in the repository. Set up the values according to your local setup to ensure the service connects correctly to its dependencies.
+
+Environment variables are crucial for keeping sensitive information and configuration details outside of the main codebase. This not only enhances security but also provides flexibility, as you can modify these variables without affecting the main application logic. 
+
+Below, we break down each environment variable present in the `sample.env` file:
+
+### Table of Contents
+
+- [DATABASE_URL](#database_url)
+- [SIGNED_TOKEN](#signed_token)
+- [PORT](#port)
+
+### DATABASE_URL
+
+**Description**: 
+This variable points to the connection string for the PostgreSQL database. It provides all the essential details required to establish a connection to the database, such as the user, password, database host, port, and database name.
+
+**Format**: 
+```
+postgres://[USER]:[PASSWORD]@[HOST]:[PORT]/[DATABASE_NAME]
+```
+
+**Sample Value**: 
+```
+postgres://postgres:postgres@localhost:5432/user
+```
+
+### SIGNED_TOKEN
+
+**Description**: 
+The `SIGNED_TOKEN` is used for token generation and verification, often applied for JWT (JSON Web Tokens) or other authentication mechanisms. By keeping this value secret and outside the main code, you ensure that your tokens are secure and cannot be tampered with.
+
+**Format**: 
+```
+[Any string that acts as a secret key]
+```
+
+**Sample Value**: 
+```
+secret
+```
+
+### PORT
+
+**Description**: 
+This variable defines the port on which your service will run. By externalizing this configuration, you can easily switch ports when required without altering the code.
+
+**Format**: 
+```
+:[PORT_NUMBER]
+```
+
+**Sample Value**: 
+```
+:1323
+```
+
+---
+
+Always ensure that your `.env` file (where you'd place actual values for these variables) is included in your `.gitignore` to prevent accidental pushes of sensitive information to public repositories. If you need to share how to set up these variables, always use the `sample.env` or similar as a template.
 
 ## Running the Service
 With everything set up, you can now run the service with the following command:
